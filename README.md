@@ -22,8 +22,8 @@ Tujuan: Membangun model regresi untuk memprediksi konsentrasi PM2.5 berdasarkan 
 Pernyataan Solusi: Menggunakan algoritma machine learning seperti Linear Regression dan Random Forest Regressor untuk memprediksi level PM2.5, dievaluasi menggunakan metrik kinerja seperti RMSE.
 
 ## Data Understanding
-- Dataset: Dataset Beijing PM2.5 dari UCI Machine Learning Repository (https://archive.ics.uci.edu/ml/datasets/Beijing+PM2.5+Data)
-- Deskripsi: Dataset ini berisi data cuaca (suhu, titik embun, tekanan, dll.) dan level PM2.5 di Beijing.
+- Dataset Beijing PM2.5 dari UCI Machine Learning Repository (https://archive.ics.uci.edu/dataset/381/beijing%2Bpm2%2B5%2Bdata)
+- Dataset ini berisi data cuaca (suhu, titik embun, tekanan, dll.) dan level PM2.5 di Beijing.
 
 ### Variabel-variabel pada Restaurant UCI dataset adalah sebagai berikut:
 - pm2.5 : Konsentrasi partikel PM2.5 dalam mikrogram per meter kubik (µg/m³)
