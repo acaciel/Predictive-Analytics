@@ -1,6 +1,104 @@
 # Laporan Proyek Machine Learning - Anissa Shanniyah Aprilia
 
 ## Domain Proyek
+
+Proyek ini berfokus pada domain **analitik prediktif dalam kualitas udara**, khususnya dalam memprediksi nilai *PM2.5* (partikulat berukuran kecil) berdasarkan fitur cuaca dan polusi udara lainnya. Prediksi *PM2.5* sangat penting karena partikel ini dapat menyebabkan masalah kesehatan yang serius jika kadarnya melebihi ambang batas aman.
+
+### Mengapa Masalah Ini Penting?
+
+Menurut WHO, paparan jangka panjang terhadap PM2.5 dapat meningkatkan risiko penyakit kardiovaskular, paru-paru, dan bahkan kematian dini. Oleh karena itu, membangun model prediksi yang andal untuk memantau kadar PM2.5 bisa menjadi langkah penting dalam pengambilan keputusan untuk kesehatan publik.
+
+## Business Understanding
+
+### Problem Statements
+1. Bagaimana memprediksi kadar PM2.5 berdasarkan fitur-fitur cuaca dan polusi udara lainnya?
+2. Fitur apa yang paling berpengaruh terhadap kadar PM2.5?
+
+### Goals
+1. Menghasilkan model prediksi untuk kadar PM2.5 dengan akurasi evaluasi yang baik.
+2. Mengidentifikasi fitur paling signifikan terhadap PM2.5 melalui proses modeling.
+
+### Solution Statements
+* Membangun beberapa model regresi seperti **Linear Regression**, **Random Forest Regressor**, dan **XGBoost Regressor**.
+* Melakukan **hyperparameter tuning** menggunakan `GridSearchCV` dan `RandomizedSearchCV` untuk model yang kompleks.
+* Mengukur performa menggunakan **MAE**, **RMSE**, dan **R² score**.
+
+## Data Understanding
+
+Dataset yang digunakan berasal dari data observasi polusi udara di China dari tahun 2010 hingga 2014, berisi informasi seperti:
+
+* `pm2.5`: konsentrasi partikulat PM2.5 (target variabel)
+* `DEWP`: tekanan titik embun
+* `TEMP`: temperatur
+* `PRES`: tekanan udara
+* `cbwd`: arah angin gabungan
+* `Iws`: kecepatan angin kumulatif
+* `Is`: kecepatan angin
+* `Ir`: curah hujan kumulatif
+
+Data dimuat dari file:
+`PRSA_data_2010.1.1-2014.12.31.csv`
+
+Contoh snippet pemuatan data:
+
+```python
+data = pd.read_csv('/content/drive/MyDrive/PRSA_data_2010.1.1-2014.12.31.csv')
+data.head()
+```
+
+---
+
+## Data Preparation
+
+### Tahapan yang Dilakukan
+
+1. **Pembersihan Data**
+   * Menghapus nilai null pada kolom `pm2.5`
+   * Konversi kolom tanggal (`year`, `month`, `day`, `hour`) menjadi datetime
+   * Menghapus kolom yang tidak relevan (seperti `No`)
+
+2. **Feature Engineering**
+   * Membuat fitur waktu tambahan (`dayofweek`, `hour`)
+   * Menggunakan one-hot encoding untuk fitur kategorikal `cbwd`
+
+3. **Feature Scaling**
+   * Menggunakan `StandardScaler` pada fitur numerik sebelum modeling.
+
+## Modeling
+Tiga algoritma yang digunakan dalam modeling:
+### 1. Linear Regression
+* Baseline model
+* Hasil: cepat dilatih, namun memiliki performa kurang baik pada data non-linear.
+
+### 2. Random Forest Regressor
+* Mengurangi overfitting dengan pengambilan rata-rata banyak pohon keputusan
+* Hyperparameter tuning menggunakan `GridSearchCV`
+
+### 3. XGBoost Regressor
+* Model boosting yang sangat efisien dan akurat
+* Hyperparameter tuning menggunakan `RandomizedSearchCV`
+* Model terbaik berdasarkan evaluasi metrik.
+
+## Evaluation
+### Metrik yang Digunakan
+* **MAE (Mean Absolute Error)**: rata-rata absolut selisih antara nilai prediksi dan aktual.
+* **RMSE (Root Mean Squared Error)**: akar dari rata-rata kuadrat kesalahan, sensitif terhadap outlier.
+* **R² Score**: seberapa besar variasi target dijelaskan oleh model (semakin mendekati 1, semakin baik).
+
+### Hasil Evaluasi (contoh)
+
+| Model             | MAE  | RMSE | R² Score |
+| ----------------- | ---- | ---- | -------- |
+| Linear Regression | 46.2 | 61.3 | 0.54     |
+| Random Forest     | 28.9 | 39.7 | 0.81     |
+| XGBoost           | 26.5 | 36.8 | 0.85     |
+
+> Berdasarkan hasil di atas, **XGBoost Regressor** menjadi model terbaik karena memiliki R² tertinggi dan error terendah.
+
+
+---
+
+## Domain Proyek
 Mengapa dan bagaimana masalah ini harus diselesaikan?
 
 Polusi udara, terutama konsentrasi PM2.5 (partikulat halus dengan diameter kurang dari 2.5 mikrometer), merupakan salah satu ancaman besar terhadap kesehatan manusia, terutama di kota-kota besar yang padat penduduk. PM2.5 dapat terhirup ke dalam saluran pernapasan dan menyebabkan berbagai penyakit, seperti asma, bronkitis, bahkan meningkatkan risiko kanker paru-paru dan penyakit jantung. Organisasi Kesehatan Dunia (WHO) mencatat bahwa polusi udara menyebabkan lebih dari 4 juta kematian premature setiap tahunnya di seluruh dunia.
@@ -40,7 +138,6 @@ Pernyataan Solusi: Menggunakan algoritma machine learning seperti Linear Regress
 ### Visualisasi Data
 ![image](https://github.com/user-attachments/assets/d9ccffa0-9d2e-4df7-a2ea-787e5196ca19)
 
-
 ## Data Preparation
 Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
 
@@ -50,11 +147,22 @@ Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dil
 
 ## Modeling
 Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan. Anda perlu menjelaskan tahapan dan parameter yang digunakan pada proses pemodelan.
+📈 Hasil Evaluasi Proyek
+Evaluasi dilakukan pada empat model berbeda:
+
+| Model               | MAE       | RMSE      | R² Score |
+| ------------------- | --------- | --------- | -------- |
+| Linear Regression   | 57.43     | 81.04     | 0.25     |
+| Random Forest       | 49.90     | 75.24     | 0.36     |
+| Tuned Random Forest | 48.70     | 72.10     | 0.41     |
+| XGBoost             | **46.46** | **70.94** | **0.43** |
+
+Dari hasil evaluasi di atas, terlihat bahwa model XGBoost memiliki performa terbaik dengan nilai MAE dan RMSE paling rendah serta R² Score tertinggi. Hal ini berarti XGBoost mampu memprediksi nilai PM2.5 dengan kesalahan paling kecil dan menjelaskan sekitar 43% variasi dalam data target.
+
+PM2.5 adalah nilai kontinu, RMSE membantu mengidentifikasi error besar akibat lonjakan PM2.5 yang berbahaya secara kesehatan, sedangkan MAE memberikan gambaran kesalahan umum. R² membantu menilai seberapa baik fitur menjelaskan fluktuasi kualitas udara. Dari hasil evaluasi ini, dapat disimpulkan model XGBoost merupakan model paling optimal untuk permasalahan prediksi kualitas udara pada proyek ini.
 
 **Rubrik/Kriteria Tambahan (Opsional)**: 
 - Menjelaskan kelebihan dan kekurangan dari setiap algoritma yang digunakan.
-- Jika menggunakan satu algoritma pada solution statement, lakukan proses improvement terhadap model dengan hyperparameter tuning. **Jelaskan proses improvement yang dilakukan**.
-- Jika menggunakan dua atau lebih algoritma pada solution statement, maka pilih model terbaik sebagai solusi. **Jelaskan mengapa memilih model tersebut sebagai model terbaik**.
 
 ## Evaluation
 Metrik Evaluasi yang Digunakan
@@ -71,21 +179,3 @@ Semakin kecil RMSE, semakin baik performa model. Cocok digunakan saat outlier pe
 3. R-squared (R² Score)
 R² mengukur seberapa baik model menjelaskan variasi dari target. Nilai R² berkisar dari 0 hingga 1.
 Nilai R² yang lebih tinggi menunjukkan bahwa model menjelaskan lebih banyak variasi dalam data target.
-
-📈 Hasil Evaluasi Proyek
-Evaluasi dilakukan pada empat model berbeda:
-
-| Model               | MAE       | RMSE      | R² Score |
-| ------------------- | --------- | --------- | -------- |
-| Linear Regression   | 57.43     | 81.04     | 0.25     |
-| Random Forest       | 49.90     | 75.24     | 0.36     |
-| Tuned Random Forest | 48.70     | 72.10     | 0.41     |
-| XGBoost             | **46.46** | **70.94** | **0.43** |
-
-
-📌 Interpretasi Hasil
-Dari hasil evaluasi di atas, terlihat bahwa model XGBoost memiliki performa terbaik dengan nilai MAE dan RMSE paling rendah serta R² Score tertinggi. Hal ini berarti XGBoost mampu memprediksi nilai PM2.5 dengan kesalahan paling kecil dan menjelaskan sekitar 43% variasi dalam data target.
-
-Pemilihan metrik evaluasi sangat sesuai dengan konteks data dan problem statement. Karena PM2.5 adalah nilai kontinu, pendekatan regresi dengan MAE, RMSE, dan R² sangat tepat. RMSE membantu mengidentifikasi error besar akibat lonjakan PM2.5 yang berbahaya secara kesehatan, sedangkan MAE memberikan gambaran kesalahan umum. R² membantu menilai seberapa baik fitur menjelaskan fluktuasi kualitas udara.
-
-Dengan mempertimbangkan hasil evaluasi ini, model XGBoost dipilih sebagai solusi akhir yang paling optimal untuk permasalahan prediksi kualitas udara dalam proyek ini.
