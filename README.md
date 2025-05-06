@@ -75,11 +75,13 @@ Nilai R² yang lebih tinggi menunjukkan bahwa model menjelaskan lebih banyak var
 📈 Hasil Evaluasi Proyek
 Evaluasi dilakukan pada empat model berbeda:
 
-|       Model         |   MAE  |  RMSE  |	R² Score |
-|Linear Regression    |	57.43	 |  81.04	|   0.25   |
-|Random Forest	      | 49.90	 |  75.24 |   0.36   |
-|Tuned Random Forest  |	48.70	 |  72.10	|   0.41   |
-|XGBoost              |	46.46	 |  70.94 |   0.43   |
+| Model               | MAE       | RMSE      | R² Score |
+| ------------------- | --------- | --------- | -------- |
+| Linear Regression   | 57.43     | 81.04     | 0.25     |
+| Random Forest       | 49.90     | 75.24     | 0.36     |
+| Tuned Random Forest | 48.70     | 72.10     | 0.41     |
+| XGBoost             | **46.46** | **70.94** | **0.43** |
+
 
 📌 Interpretasi Hasil
 Dari hasil evaluasi di atas, terlihat bahwa model XGBoost memiliki performa terbaik dengan nilai MAE dan RMSE paling rendah serta R² Score tertinggi. Hal ini berarti XGBoost mampu memprediksi nilai PM2.5 dengan kesalahan paling kecil dan menjelaskan sekitar 43% variasi dalam data target.
