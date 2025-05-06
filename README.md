@@ -24,6 +24,8 @@ Pernyataan Solusi: Menggunakan algoritma machine learning seperti Linear Regress
 ## Data Understanding
 - Dataset Beijing PM2.5 dari UCI Machine Learning Repository (https://archive.ics.uci.edu/dataset/381/beijing%2Bpm2%2B5%2Bdata)
 - Dataset ini berisi data cuaca (suhu, titik embun, tekanan, dll.) dan level PM2.5 di Beijing.
+- Jumlah baris dan kolom: (43824, 13)
+- missing values: 2067 pada kolom pm2.5
 
 ### Variabel-variabel pada Restaurant UCI dataset adalah sebagai berikut:
 - pm2.5 : Konsentrasi partikel PM2.5 dalam mikrogram per meter kubik (µg/m³)
@@ -55,15 +57,33 @@ Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyel
 - Jika menggunakan dua atau lebih algoritma pada solution statement, maka pilih model terbaik sebagai solusi. **Jelaskan mengapa memilih model tersebut sebagai model terbaik**.
 
 ## Evaluation
-Pada bagian ini anda perlu menyebutkan metrik evaluasi yang digunakan. Lalu anda perlu menjelaskan hasil proyek berdasarkan metrik evaluasi yang digunakan.
+Metrik Evaluasi yang Digunakan
+Dalam proyek ini, digunakan tiga metrik utama untuk mengevaluasi kinerja model regresi dalam memprediksi kadar PM2.5, yaitu:
 
-Sebagai contoh, Anda memiih kasus klasifikasi dan menggunakan metrik **akurasi, precision, recall, dan F1 score**. Jelaskan mengenai beberapa hal berikut:
-- Penjelasan mengenai metrik yang digunakan
-- Menjelaskan hasil proyek berdasarkan metrik evaluasi
+1. Mean Absolute Error (MAE)
+MAE mengukur rata-rata selisih absolut antara nilai aktual dengan prediksi. Metrik ini mudah diinterpretasikan karena berada dalam satuan yang sama dengan target (µg/m³).
+Nilai MAE yang lebih kecil menunjukkan bahwa model melakukan prediksi yang lebih akurat secara umum.
 
-Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, problem statement, dan solusi yang diinginkan.
+2. Root Mean Squared Error (RMSE)
+RMSE menghitung akar dari rata-rata kuadrat selisih antara prediksi dan nilai aktual. Metrik ini lebih sensitif terhadap error besar karena adanya pemangkatan.
+Semakin kecil RMSE, semakin baik performa model. Cocok digunakan saat outlier penting untuk diperhatikan.
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
+3. R-squared (R² Score)
+R² mengukur seberapa baik model menjelaskan variasi dari target. Nilai R² berkisar dari 0 hingga 1.
+Nilai R² yang lebih tinggi menunjukkan bahwa model menjelaskan lebih banyak variasi dalam data target.
 
-**---Ini adalah bagian akhir laporan---**
+📈 Hasil Evaluasi Proyek
+Evaluasi dilakukan pada empat model berbeda:
+
+|       Model         |   MAE  |  RMSE  |	R² Score |
+|Linear Regression    |	57.43	 |  81.04	|   0.25   |
+|Random Forest	      | 49.90	 |  75.24 |   0.36   |
+|Tuned Random Forest  |	48.70	 |  72.10	|   0.41   |
+|XGBoost              |	46.46	 |  70.94 |   0.43   |
+
+📌 Interpretasi Hasil
+Dari hasil evaluasi di atas, terlihat bahwa model XGBoost memiliki performa terbaik dengan nilai MAE dan RMSE paling rendah serta R² Score tertinggi. Hal ini berarti XGBoost mampu memprediksi nilai PM2.5 dengan kesalahan paling kecil dan menjelaskan sekitar 43% variasi dalam data target.
+
+Pemilihan metrik evaluasi sangat sesuai dengan konteks data dan problem statement. Karena PM2.5 adalah nilai kontinu, pendekatan regresi dengan MAE, RMSE, dan R² sangat tepat. RMSE membantu mengidentifikasi error besar akibat lonjakan PM2.5 yang berbahaya secara kesehatan, sedangkan MAE memberikan gambaran kesalahan umum. R² membantu menilai seberapa baik fitur menjelaskan fluktuasi kualitas udara.
+
+Dengan mempertimbangkan hasil evaluasi ini, model XGBoost dipilih sebagai solusi akhir yang paling optimal untuk permasalahan prediksi kualitas udara dalam proyek ini.
