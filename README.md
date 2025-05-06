@@ -41,6 +41,7 @@ Menurut WHO, paparan jangka panjang terhadap PM2.5 dapat meningkatkan risiko pen
 
 ### Visualisasi Data
 ![image](https://github.com/user-attachments/assets/d9ccffa0-9d2e-4df7-a2ea-787e5196ca19)
+
 Dari visualisasi distribusi PM2.5 jelas menunjukkan distribusi yang right-skewed, artinya mayoritas nilai PM2.5 berada di kisaran rendah, tapi ada sebagian kecil data dengan nilai sangat tinggi (outlier).
 
 ## Data Preparation
@@ -80,22 +81,7 @@ Tiga algoritma yang digunakan dalam modeling:
 * **RMSE (Root Mean Squared Error)**: akar dari rata-rata kuadrat kesalahan, sensitif terhadap outlier.
 * **R² Score**: seberapa besar variasi target dijelaskan oleh model (semakin mendekati 1, semakin baik).
 
-### Hasil Evaluasi (contoh)
-
-| Model             | MAE  | RMSE | R² Score |
-| ----------------- | ---- | ---- | -------- |
-| Linear Regression | 46.2 | 61.3 | 0.54     |
-| Random Forest     | 28.9 | 39.7 | 0.81     |
-| XGBoost           | 26.5 | 36.8 | 0.85     |
-
-> Berdasarkan hasil di atas, **XGBoost Regressor** menjadi model terbaik karena memiliki R² tertinggi dan error terendah.
-
-
----
-
-## Modeling
-Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan. Anda perlu menjelaskan tahapan dan parameter yang digunakan pada proses pemodelan.
-📈 Hasil Evaluasi Proyek
+### Hasil Evaluasi
 Evaluasi dilakukan pada empat model berbeda:
 
 | Model               | MAE       | RMSE      | R² Score |
@@ -105,22 +91,7 @@ Evaluasi dilakukan pada empat model berbeda:
 | Tuned Random Forest | 48.70     | 72.10     | 0.41     |
 | XGBoost             | **46.46** | **70.94** | **0.43** |
 
-Dari hasil evaluasi di atas, terlihat bahwa model XGBoost memiliki performa terbaik dengan nilai MAE dan RMSE paling rendah serta R² Score tertinggi. Hal ini berarti XGBoost mampu memprediksi nilai PM2.5 dengan kesalahan paling kecil dan menjelaskan sekitar 43% variasi dalam data target.
+> Dari hasil evaluasi di atas, terlihat bahwa model XGBoost memiliki performa terbaik dengan nilai MAE dan RMSE paling rendah serta R² Score tertinggi. Hal ini berarti XGBoost mampu memprediksi nilai PM2.5 dengan kesalahan paling kecil dan menjelaskan sekitar 43% variasi dalam data target.
 
 PM2.5 adalah nilai kontinu, RMSE membantu mengidentifikasi error besar akibat lonjakan PM2.5 yang berbahaya secara kesehatan, sedangkan MAE memberikan gambaran kesalahan umum. R² membantu menilai seberapa baik fitur menjelaskan fluktuasi kualitas udara. Dari hasil evaluasi ini, dapat disimpulkan model XGBoost merupakan model paling optimal untuk permasalahan prediksi kualitas udara pada proyek ini.
 
-## Evaluation
-Metrik Evaluasi yang Digunakan
-Dalam proyek ini, digunakan tiga metrik utama untuk mengevaluasi kinerja model regresi dalam memprediksi kadar PM2.5, yaitu:
-
-1. Mean Absolute Error (MAE)
-MAE mengukur rata-rata selisih absolut antara nilai aktual dengan prediksi. Metrik ini mudah diinterpretasikan karena berada dalam satuan yang sama dengan target (µg/m³).
-Nilai MAE yang lebih kecil menunjukkan bahwa model melakukan prediksi yang lebih akurat secara umum.
-
-2. Root Mean Squared Error (RMSE)
-RMSE menghitung akar dari rata-rata kuadrat selisih antara prediksi dan nilai aktual. Metrik ini lebih sensitif terhadap error besar karena adanya pemangkatan.
-Semakin kecil RMSE, semakin baik performa model. Cocok digunakan saat outlier penting untuk diperhatikan.
-
-3. R-squared (R² Score)
-R² mengukur seberapa baik model menjelaskan variasi dari target. Nilai R² berkisar dari 0 hingga 1.
-Nilai R² yang lebih tinggi menunjukkan bahwa model menjelaskan lebih banyak variasi dalam data target.
