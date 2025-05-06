@@ -29,7 +29,7 @@ Menurut WHO, paparan jangka panjang terhadap PM2.5 dapat meningkatkan risiko pen
 - Jumlah baris dan kolom: (43824, 13)
 - missing values: 2067 pada kolom pm2.5
 
-### Variabel-variabel pada Restaurant UCI dataset adalah sebagai berikut:
+### Variabel-variabel pada Dataset Beijing PM2.5 adalah sebagai berikut:
 - `pm2.5` : Konsentrasi partikel PM2.5 dalam mikrogram per meter kubik (µg/m³)
 - `DEWP` : Suhu titik embun (dew point temperature) dalam derajat Celsius
 - `TEMP` : Suhu udara dalam derajat Celsius
@@ -94,4 +94,3 @@ Evaluasi dilakukan pada empat model berbeda:
 > Dari hasil evaluasi di atas, terlihat bahwa model XGBoost memiliki performa terbaik dengan nilai MAE dan RMSE paling rendah serta R² Score tertinggi. Hal ini berarti XGBoost mampu memprediksi nilai PM2.5 dengan kesalahan paling kecil dan menjelaskan sekitar 43% variasi dalam data target.
 
 PM2.5 adalah nilai kontinu, RMSE membantu mengidentifikasi error besar akibat lonjakan PM2.5 yang berbahaya secara kesehatan, sedangkan MAE memberikan gambaran kesalahan umum. R² membantu menilai seberapa baik fitur menjelaskan fluktuasi kualitas udara. Dari hasil evaluasi ini, dapat disimpulkan model XGBoost merupakan model paling optimal untuk permasalahan prediksi kualitas udara pada proyek ini.
-
