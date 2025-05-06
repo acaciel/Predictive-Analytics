@@ -35,6 +35,10 @@ Pernyataan Solusi: Menggunakan algoritma machine learning seperti Linear Regress
 - Is : Jumlah jam hujan ringan dalam satu jam
 - Ir : Jumlah jam hujan lebat dalam satu jam
 
+### Visualisasi Data
+![image](https://github.com/user-attachments/assets/d9ccffa0-9d2e-4df7-a2ea-787e5196ca19)
+
+
 ## Data Preparation
 Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
 
