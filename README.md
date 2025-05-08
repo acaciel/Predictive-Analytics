@@ -26,16 +26,21 @@ Menurut WHO, paparan jangka panjang terhadap PM2.5 dapat meningkatkan risiko pen
 ## Data Understanding
 - Dataset Beijing PM2.5 dari UCI Machine Learning Repository (https://archive.ics.uci.edu/dataset/381/beijing%2Bpm2%2B5%2Bdata)
 - Dataset yang digunakan berasal dari data observasi polusi udara di China dari tahun 2010 hingga 2014
-- Jumlah baris dan kolom: (43824, 13)
-- missing values: 2067 pada kolom pm2.5
+- Jumlah data: Dataset terdiri dari 43.824 baris dan 13 kolom.
+- missing values: Terdapat 2.067 nilai kosong pada kolom pm2.5
 
 ### Variabel-variabel pada Dataset Beijing PM2.5 adalah sebagai berikut:
+- `No` : nomor baris dataset
+- `year` : tahun pengukuran
+- `month` : bulan pengukuran
+- `day` : hari pengukuran
+- `hour` : jam pengukuran
 - `pm2.5` : Konsentrasi partikel PM2.5 dalam mikrogram per meter kubik (µg/m³)
-- `DEWP` : Suhu titik embun (dew point temperature) dalam derajat Celsius
-- `TEMP` : Suhu udara dalam derajat Celsius
+- `DEWP` : Suhu titik embun (°C)
+- `TEMP` : Suhu udara (°C)
 - `PRES` : Tekanan atmosfer dalam hPa (hectopascal)
 - `cbwd` : Arah angin
-- `Iws` : Kecepatan angin kumulatif dalam m/s
+- `Iws` : Kecepatan angin kumulatif (m/s)
 - `Is` : Jumlah jam hujan ringan dalam satu jam
 - `Ir` : Jumlah jam hujan lebat dalam satu jam
 
@@ -50,30 +55,40 @@ Dari visualisasi distribusi PM2.5 jelas menunjukkan distribusi yang right-skewed
 
 1. **Pembersihan Data**
    * Menghapus nilai null pada kolom `pm2.5`
-   * Konversi kolom tanggal (`year`, `month`, `day`, `hour`) menjadi datetime
+   * Kolom waktu (`year`, `month`, `day`, `hour`) digabung menjadi satu kolom `datetime`
    * Menghapus kolom yang tidak relevan (seperti `No`)
 
 2. **Feature Engineering**
    * Membuat fitur waktu tambahan (`dayofweek`, `hour`)
    * Menggunakan one-hot encoding untuk fitur kategorikal `cbwd`
+  
+3. **Feature Selection & Target**
+   * Fitur numerik + one-hot `cbwd` digunakan sebagai input
+   * `pm2.5` sebagai target
 
-3. **Feature Scaling**
-   * Menggunakan `StandardScaler` pada fitur numerik sebelum modeling.
+4. **Feature Scaling**
+   * Menggunakan `StandardScaler` untuk normalisasi fitur numerik sebelum modeling.
+
+5. **Data Splitting**
+   * Split data ke training dan testing menggunakan train_test_split, rasio 80:20
 
 ## Modeling
 Tiga algoritma yang digunakan dalam modeling:
 ### 1. Linear Regression
+* Cara kerja: Mencari garis lurus terbaik untuk memetakan hubungan antara fitur dan target.
+* Parameter: Default
 * Baseline model
 * Hasil: cepat dilatih, namun memiliki performa kurang baik pada data non-linear.
 
 ### 2. Random Forest Regressor
-* Mengurangi overfitting dengan pengambilan rata-rata banyak pohon keputusan
-* Hyperparameter tuning menggunakan `GridSearchCV`
-
+* Cara kerja: Ensemble learning dengan banyak decision tree, hasil prediksi diambil rata-rata
+* Parameter: Dituning menggunakan `GridSearchCV`
+* Kelebihan: Tahan terhadap overfitting dan menangani non-linearitas
+  
 ### 3. XGBoost Regressor
-* Model boosting yang sangat efisien dan akurat
-* Hyperparameter tuning menggunakan `RandomizedSearchCV`
-* Model terbaik berdasarkan evaluasi metrik.
+* Cara kerja: Boosting bertahap, pohon berikutnya fokus pada kesalahan model sebelumnya
+* Parameter: Dituning menggunakan `RandomizedSearchCV`
+* Kelebihan: Cepat, efisien, dan akurat; model terbaik pada proyek ini
 
 ## Evaluation
 ### Metrik yang Digunakan
