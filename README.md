@@ -28,6 +28,7 @@ Menurut WHO, paparan jangka panjang terhadap PM2.5 dapat meningkatkan risiko pen
 - Dataset yang digunakan berasal dari data observasi polusi udara di China dari tahun 2010 hingga 2014
 - Jumlah data: Dataset terdiri dari 43.824 baris dan 13 kolom.
 - missing values: Terdapat 2.067 nilai kosong pada kolom pm2.5
+- tidak terdapat data duplikat
 
 ### Variabel-variabel pada Dataset Beijing PM2.5 adalah sebagai berikut:
 - `No` : nomor baris dataset
@@ -53,13 +54,12 @@ Dari visualisasi distribusi PM2.5 jelas menunjukkan distribusi yang right-skewed
 
 ### Tahapan yang Dilakukan
 
-1. **Pembersihan Data**
+1. **Data Cleaning**
    * Menghapus nilai null pada kolom `pm2.5`
    * Kolom waktu (`year`, `month`, `day`, `hour`) digabung menjadi satu kolom `datetime`
    * Menghapus kolom yang tidak relevan (seperti `No`)
 
-2. **Feature Engineering**
-   * Membuat fitur waktu tambahan (`dayofweek`, `hour`)
+2. **Encoding Fitur Kategorikal**
    * Menggunakan one-hot encoding untuk fitur kategorikal `cbwd`
   
 3. **Feature Selection & Target**
