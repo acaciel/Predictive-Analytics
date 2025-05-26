@@ -72,7 +72,7 @@ Dari visualisasi distribusi PM2.5 jelas menunjukkan distribusi yang right-skewed
 5. **Data Splitting**
    * Split data ke training dan testing menggunakan train_test_split, rasio 80:20
 
-## Modeling
+## Model Development
 Tiga algoritma yang digunakan dalam modeling:
 ### 1. Linear Regression
 * Cara kerja: Mencari garis lurus terbaik untuk memetakan hubungan antara fitur dan target.
