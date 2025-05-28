@@ -55,8 +55,9 @@ Dari visualisasi distribusi PM2.5 jelas menunjukkan distribusi yang right-skewed
 ### Tahapan yang Dilakukan
 
 1. **Data Cleaning**
-   * Menghapus nilai null pada kolom `pm2.5`
-   * Kolom waktu (`year`, `month`, `day`, `hour`) digabung menjadi satu kolom `datetime`
+   * Menghapus baris yang memiliki nilai null pada kolom `pm2.5` menggunakan `dropna()`.
+   * Kolom waktu (`year`, `month`, `day`, `hour`) digabung menjadi satu kolom `datetime`.
+   * Menetapkan kolom `datetime` sebagai index.
    * Menghapus kolom yang tidak relevan (seperti `No`)
 
 2. **Encoding Fitur Kategorikal**
@@ -70,25 +71,57 @@ Dari visualisasi distribusi PM2.5 jelas menunjukkan distribusi yang right-skewed
    * Menggunakan `StandardScaler` untuk normalisasi fitur numerik sebelum modeling.
 
 5. **Data Splitting**
-   * Split data ke training dan testing menggunakan train_test_split, rasio 80:20
+   * Dataset dibagi menjadi data training dan testing dengan rasio 80:20 menggunakan `train_test_split` dan `random_state=42`.
+
+> **Catatan khusus untuk model Random Forest (Awal)**
+> Model Random Forest pertama menggunakan pipeline persiapan data yang berbeda:
+>
+> * Setelah `dropna()`, fitur yang digunakan hanya: `DEWP`, `TEMP`, `PRES`, `Iws`, `Is`, dan `Ir`.
+> * Fitur `cbwd` tidak diolah atau di-encode.
+> * Tidak dilakukan scaling karena Random Forest tidak sensitif terhadap skala fitur.
+> * Hal ini merupakan alasan mengapa model ini memiliki performa lebih rendah dibanding model dengan pipeline utama.
 
 ## Model Development
 Tiga algoritma yang digunakan dalam modeling:
 ### 1. Linear Regression
-* Cara kerja: Mencari garis lurus terbaik untuk memetakan hubungan antara fitur dan target.
-* Parameter: Default
-* Baseline model
-* Hasil: cepat dilatih, namun memiliki performa kurang baik pada data non-linear.
+* **Cara kerja**: Mencari garis lurus terbaik untuk memetakan hubungan antara fitur dan target.
+* **Parameter**: Default.
+* **Persiapan Data**: Menggunakan dataset dengan fitur hasil one-hot encoding dan hasil scaling.
+* **Kelebihan**: Cepat dan mudah digunakan, tapi kurang cocok untuk data yang tidak linear.
 
-### 2. Random Forest Regressor
-* Cara kerja: Ensemble learning dengan banyak decision tree, hasil prediksi diambil rata-rata
-* Parameter: Dituning menggunakan `GridSearchCV`
-* Kelebihan: Tahan terhadap overfitting dan menangani non-linearitas
+### 2. Random Forest Regressor (Awal)
+* **Deskripsi**: Model ensemble berbasis decision tree, digunakan sebelum dilakukan tuning.
+* **Parameter**:
+
+  * `random_state = 42`
+* **Persiapan Data**: Menggunakan fitur numerik tanpa scaling dan tanpa encoding pada `cbwd`.
+* **Kelebihan**: Cocok untuk data non-linear, robust terhadap outlier dan noise.
+* **Catatan**: Performanya lebih rendah dibanding versi yang dituning karena pipeline persiapan datanya lebih sederhana.
+
+### 3. Tuned Random Forest Regressor
+* **Deskripsi**: Versi Random Forest yang dituning menggunakan GridSearchCV.
+* **Cara Kerja**: Ensemble learning dengan banyak decision tree, hasil prediksi diambil rata-rata
+* **Parameter terbaik hasil tuning**:
+
+  * `n_estimators = 100`
+  * `max_depth = 10`
+  * `min_samples_split = 5`
+  * `min_samples_leaf = 2`
+  * `random_state = 42`
+* **Persiapan Data**: Menggunakan fitur hasil one-hot encoding dan hasil scaling.
+* **Hasil dan Kelebihan**: Meningkatkan akurasi dibanding Random Forest awal, tahan terhadap overfitting, serta menangani non-linearitas
   
-### 3. XGBoost Regressor
-* Cara kerja: Boosting bertahap, pohon berikutnya fokus pada kesalahan model sebelumnya
-* Parameter: Dituning menggunakan `RandomizedSearchCV`
-* Kelebihan: Cepat, efisien, dan akurat; model terbaik pada proyek ini
+### 4. XGBoost Regressor
+* **Deskripsi**: Algoritma boosting yang efektif dan efisien.
+* **Cara kerja**: Boosting bertahap, tree berikutnya fokus pada kesalahan model sebelumnya
+* **Parameter**:
+
+  * `n_estimators = 200`
+  * `max_depth = 10`
+  * `learning_rate = 0.1`
+  * `random_state = 42`
+* **Persiapan Data**: Sama seperti model Tuned RF.
+* **Hasil dan Kelebihan**: Cepat, efisien, dan akurat; model dengan performa terbaik dalam proyek ini.
 
 ## Evaluation
 ### Metrik yang Digunakan
