@@ -74,6 +74,7 @@ Dari visualisasi distribusi PM2.5 jelas menunjukkan distribusi yang right-skewed
    * Dataset dibagi menjadi data training dan testing dengan rasio 80:20 menggunakan `train_test_split` dan `random_state=42`.
 
 > **Catatan khusus untuk model Random Forest (Awal)**
+>
 > Model Random Forest pertama menggunakan pipeline persiapan data yang berbeda:
 >
 > * Setelah `dropna()`, fitur yang digunakan hanya: `DEWP`, `TEMP`, `PRES`, `Iws`, `Is`, dan `Ir`.
