@@ -73,14 +73,15 @@ Dari visualisasi distribusi PM2.5 jelas menunjukkan distribusi yang right-skewed
 5. **Data Splitting**
    * Dataset dibagi menjadi data training dan testing dengan rasio 80:20 menggunakan `train_test_split` dan `random_state=42`.
 
-> **Catatan khusus untuk model Random Forest (Awal)**
+> **Catatan khusus untuk model Random Forest (Awal), Tuned Random Forest, dan XGBoost**
 >
-> Model Random Forest pertama menggunakan pipeline persiapan data yang berbeda:
+> Ketiga model ini menggunakan pipeline persiapan data yang berbeda dari pipeline utama:
 >
-> * Setelah `dropna()`, fitur yang digunakan hanya: `DEWP`, `TEMP`, `PRES`, `Iws`, `Is`, dan `Ir`.
-> * Fitur `cbwd` tidak diolah atau di-encode.
-> * Tidak dilakukan scaling karena Random Forest tidak sensitif terhadap skala fitur.
-> * Hal ini merupakan alasan mengapa model ini memiliki performa lebih rendah dibanding model dengan pipeline utama.
+> * Setelah `dropna()`, hanya fitur numerik berikut yang digunakan: `DEWP`, `TEMP`, `PRES`, `Iws`, `Is`, dan `Ir`.
+> * Fitur kategorikal `cbwd` tidak diolah atau di-encode.
+> * Tidak dilakukan proses scaling karena model Random Forest dan XGBoost tidak sensitif terhadap skala fitur.
+> * Model Linear Regression tetap menggunakan pipeline utama (dengan one-hot encoding dan scaling), sehingga perbedaan ini perlu dicatat agar interpretasi performa model tetap adil dan akurat.
+
 
 ## Model Development
 Tiga algoritma yang digunakan dalam modeling:
@@ -104,12 +105,12 @@ Tiga algoritma yang digunakan dalam modeling:
 * **Cara Kerja**: Ensemble learning dengan banyak decision tree, hasil prediksi diambil rata-rata
 * **Parameter terbaik hasil tuning**:
 
-  * `n_estimators = 100`
-  * `max_depth = 10`
-  * `min_samples_split = 5`
-  * `min_samples_leaf = 2`
+  * `n_estimators = 300`
+  * `max_depth = 20`
+  * `min_samples_split = 10`
+  * `min_samples_leaf = 4`
   * `random_state = 42`
-* **Persiapan Data**: Menggunakan fitur hasil one-hot encoding dan hasil scaling.
+* **Persiapan Data**: Menggunakan pipeline sederhana seperti pada model Random Forest awal (tanpa one-hot encoding dan tanpa scaling). Fitur yang digunakan terbatas pada `DEWP`, `TEMP`, `PRES`, `Iws`, `Is`, dan `Ir`.
 * **Hasil dan Kelebihan**: Meningkatkan akurasi dibanding Random Forest awal, tahan terhadap overfitting, serta menangani non-linearitas
   
 ### 4. XGBoost Regressor
@@ -121,7 +122,7 @@ Tiga algoritma yang digunakan dalam modeling:
   * `max_depth = 10`
   * `learning_rate = 0.1`
   * `random_state = 42`
-* **Persiapan Data**: Sama seperti model Tuned RF.
+* **Persiapan Data**: Sama seperti model Tuned RF, yaitu tanpa one-hot encoding dan tanpa scaling, menggunakan fitur numerik terbatas (`DEWP`, `TEMP`, `PRES`, `Iws`, `Is`, dan `Ir`).
 * **Hasil dan Kelebihan**: Cepat, efisien, dan akurat; model dengan performa terbaik dalam proyek ini.
 
 ## Evaluation
